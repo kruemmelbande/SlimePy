@@ -41,6 +41,10 @@ class sender:
     async def set_rotation(self, imu_id, x, y, z):
         await self.udp_handler.rotate_imu(imu_id, self.Quaternion(x, y, z))
     
+    async def set_quaternion_rotation(self, imu_id, quat, resend=1):
+        q = self.Quaternion(quat[0],quat[1],quat[2],quat[3])
+        await self.udp_handler.rotate_imu(imu_id, q, resend=resend)
+
     async def setup(self):
         self.handshake_task = asyncio.create_task(self.udp_handler.handshake(1, 1, 1))
         await self.handshake_task
